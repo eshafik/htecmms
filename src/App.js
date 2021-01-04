@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {Router} from "react-router-dom";
+
+import Nav from "./Nav/Nav";
+import SideBar from "./SideBar/SideBar";
+import Footer from "./Footer/Footer";
+import history from "./history";
+import Project from "./pages/MainNavigation";
+import IdleTimerContainer from "./components/IdleTimerContainer";
 
 function App() {
+    console.log("env: ", process.env);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+        <IdleTimerContainer/>
+        <Router history={history}>
+          <SideBar/>
+          <div className="main-panel">
+              <Nav/>
+              <div className="content">
+                <Project/>
+              </div>
+              <Footer/>
+          </div>
+        </Router>
     </div>
   );
 }
