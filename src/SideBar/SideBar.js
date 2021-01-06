@@ -10,14 +10,14 @@ class SideBar extends React.Component{
         }
         return(
             <ul className="nav">
-                <li className="nav-item active">
-                    <Link className="nav-link" to="/#">
+                <li className="nav-item">
+                    <Link className="nav-link" to="/#" onClick={ (e) => e.preventDefault() }>
                         <i className="nc-icon nc-chart-pie-35"/>
                         <p>Dashboard</p>
                     </Link>
                 </li>
                 {localStorage.getItem('group') && localStorage.getItem('group') === 'DEV-ADMIN' ?
-                    <li>
+                    <li className="nav-item">
                         <Link className="nav-link" to="/users">
                             <i className="nc-icon nc-circle-09"/>
                             <p>Users Management</p>
@@ -26,7 +26,7 @@ class SideBar extends React.Component{
                     : null
                 }
 
-                <li>
+                <li className="nav-item">
                     <Link className="nav-link" to="/#">
                         <i className="nc-icon nc-notes"/>
                         <p>Table List</p>

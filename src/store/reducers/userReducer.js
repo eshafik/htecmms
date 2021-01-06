@@ -17,10 +17,13 @@ const userReducer = (state = {}, action) => {
             return {...state, user: {...state.user, ...action.payload}}
         case actionTypes.BLOCK_UNBLOCK_USER:
             return state;
-        case actionTypes.DELETE_STREAM:
+        case actionTypes.DELETE_USER:
             // return _.omit(state, action.payload)
-            const result = _.omit(state.results, action.payload);
-            return {...state, results: {...result}}
+            const id = parseInt(action.payload);
+            console.log("Id: ", id);
+            const result = state.results.filter(item => item.id !==id);
+            console.log("result: ", result);
+            return {...state, results: result}
         case actionTypes.USER_GROUPS:
             const groups = {groups: action.payload}
             return {...state, ...groups}

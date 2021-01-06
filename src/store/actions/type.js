@@ -16,4 +16,5 @@ export const FETCH_USER = "FETCH_USER";
 export const DELETE_USER = "DELETE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const FETCH_SECTIONS = "FETCH_SECTIONS";
+export const FETCH_MACHINES = "FETCH_MACHINES";
 export const BLOCK_UNBLOCK_USER = "BLOCK_UNBLOCK_USER";

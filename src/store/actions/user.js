@@ -37,7 +37,11 @@ export const getUserGroup = () => async (dispatch, getState) => {
 
 export const createUser = formValues => async (dispatch, getState) => {
     try{
-        const response = await machineStatusManagement.post('/users/', {...formValues});
+        const response = await machineStatusManagement.post('/users/', {...formValues}, {
+            headers: {
+                'Authorization': "jwt " + localStorage.getItem("idToken")
+            }
+        });
         if (response.status === 201) {
             notify_success("Stream Creation Succeed!");
         }
@@ -47,7 +51,11 @@ export const createUser = formValues => async (dispatch, getState) => {
     }catch (e) {
         if (e.response && e.response.status===401) {
             refreshToken().then(async function () {
-                    const response = await machineStatusManagement.post('/users/', {...formValues});
+                    const response = await machineStatusManagement.post('/users/', {...formValues}, {
+                        headers: {
+                            'Authorization': "jwt " + localStorage.getItem("idToken")
+                        }
+                    });
                     if (response.status === 201) {
                         notify_success("Stream Creation Succeed!");
                     }
@@ -64,11 +72,10 @@ export const createUser = formValues => async (dispatch, getState) => {
 };
 
 export const fetchUsers = () => async (dispatch, getState) => {
-    console.log("fetch users Action ......................");
     try{
         let response = await machineStatusManagement.get('/users', {
             headers: {
-                'Authorization': `jwt ${getState().fbAuth.idToken}`
+                'Authorization': 'jwt ' + localStorage.getItem("idToken")
             },
         });
         dispatch({type: actionTypes.FETCH_USERS, payload: response.data});
@@ -158,7 +165,8 @@ export const blockUnblockUser = (id, isBlocked) => async dispatch => {
         });
         dispatch({type: actionTypes.BLOCK_UNBLOCK_USER});
         notify_success("Action Successful!");
-        window.location.reload();
+        history.push("/users");
+        // window.location.reload();
 
     }catch (e) {
         if (e.response && e.response.status===401) {
@@ -171,7 +179,41 @@ export const blockUnblockUser = (id, isBlocked) => async dispatch => {
                 });
                 dispatch({type: actionTypes.BLOCK_UNBLOCK_USER});
                 notify_success("Action Successful!");
-                window.location.reload();
+                history.push("/users");
+                }
+            ).catch(function (e) {
+                notify_error("Network Error!");
+            })
+        }
+
+    }
+
+};
+
+export const deleteUser = id => async dispatch => {
+    try{
+        const formValues = {is_active: false}
+        await machineStatusManagement.patch(`/users/${id}/`, formValues, {
+            headers: {
+                'Authorization': "jwt " + localStorage.getItem("idToken")
+            },
+        });
+        dispatch({type: actionTypes.DELETE_USER, payload: id});
+        notify_success("User Deletion Successful!");
+        history.push("/users");
+
+    }catch (e) {
+        if (e.response && e.response.status===401) {
+            refreshToken().then(async function () {
+                const formValues = {is_active: false}
+                await machineStatusManagement.patch(`/users/${id}/`, formValues, {
+                    headers: {
+                        'Authorization': "jwt " + localStorage.getItem("idToken")
+                    },
+                });
+                dispatch({type: actionTypes.DELETE_USER, payload: id});
+                notify_success("User Deletion Successful!");
+                history.push("/users");
                 }
             ).catch(function (e) {
                 notify_error("Network Error!");

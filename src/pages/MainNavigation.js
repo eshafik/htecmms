@@ -13,6 +13,9 @@ import FirebaseLoginForm from "../components/FirebaseLoginForm";
 import UserDashboard from "./UserManagementDashboard/UserDashboard";
 import UpdateUser from "./UserManagementDashboard/UpdateUser";
 import BlockUser from "./UserManagementDashboard/BlockUser";
+import DeleteUser from "./UserManagementDashboard/DeleteUser";
+
+import MachineList from "./Machines/MachineList";
 
 
 function MainNavigation() {
@@ -30,6 +33,8 @@ function MainNavigation() {
                 <Route path="/users/" exact component={UserDashboard}/>
                 <Route path="/users/edit/:id" exact component={UpdateUser}/>
                 <Route path="/users/block-unblock/:id" exact component={BlockUser}/>
+                <Route path="/users/delete/:id" exact component={DeleteUser}/>
+                <Route path="/machines/live" exact component={MachineList}/>
             </Switch>
         </React.Fragment>
     );

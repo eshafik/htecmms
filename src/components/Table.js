@@ -13,7 +13,7 @@ const Table = props => {
                                     <div className="card strpied-tabled-with-hover">
                                         <div className="card-header ">
                                             <h4 className="card-title">{props.title}</h4>
-                                            <p className="card-category">Here is a subtitle for this table</p>
+                                            <p className="card-category">{props.subtitle}</p>
                                         </div>
                                         <div className="card-body table-full-width table-responsive">
                                             <table className="table table-hover table-striped">

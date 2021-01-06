@@ -14,14 +14,14 @@ class UserForm extends React.Component{
         }
     }
     renderUserGroup = ({input, label, meta}) =>{
-        // const className = `form-group ${meta.error && meta.touched ? "has-error has-feedback": "has-feedback"}`;
+        const className = `form-group ${meta.error && meta.touched ? "has-error has-feedback": "has-feedback"}`;
         return (
             <div className="row">
                 <div className="col-md-12">
-                    <div className="form-group">
+                    <div className={className}>
                         <label>{label}</label>
                         <select {...input} className="form-control">
-                            <option disabled> -- select an option -- </option>
+                            <option disabled value=""> -- select an option -- </option>
                             {this.props.groups.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
                         </select>
                         {this.renderError(meta)}
@@ -32,14 +32,14 @@ class UserForm extends React.Component{
     }
 
     renderSection = ({input, label, meta}) =>{
-        // const className = `form-group ${meta.error && meta.touched ? "has-error has-feedback": "has-feedback"}`;
+        const className = `form-group ${meta.error && meta.touched ? "has-error has-feedback": "has-feedback"}`;
         return (
             <div className="row">
                 <div className="col-md-12">
-                    <div className="form-group">
+                    <div className={className}>
                         <label>{label}</label>
                         <select {...input} className="form-control">
-                            <option disabled> -- select an option -- </option>
+                            <option disabled value=""> -- select an option -- </option>
                             {this.props.sections.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
                         </select>
                         {this.renderError(meta)}
@@ -142,6 +142,12 @@ const validate =  (formValues) => {
     }
     if(!formValues.employee_id){
         errors.employee_id = 'You must entry a employee id';
+    }
+    if(!formValues.user_group){
+        errors.user_group = 'You must select user permission group';
+    }
+    if(!formValues.section){
+        errors.section = 'You must select user section';
     }
     return errors
 };

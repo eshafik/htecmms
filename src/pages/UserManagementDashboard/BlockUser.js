@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {Modal} from 'react-bootstrap';
 
 import {fetchUser, blockUnblockUser} from "../../store/actions/user";
+import history from "../../history";
 
 class BlockUser extends React.Component{
 
@@ -18,11 +19,11 @@ class BlockUser extends React.Component{
     renderActions () {
         return (
             <React.Fragment>
+                <Link to="/users" className="btn btn-secondary">Cancel</Link>
                 <button
                     className="btn btn-danger"
                     onClick={()=>this.onSubmit(true)}
-                >Delete</button>
-                <Link to="/" className="btn btn-secondary">Cancel</Link>
+                >Block</button>
             </React.Fragment>
         );
     }
@@ -30,36 +31,35 @@ class BlockUser extends React.Component{
     renderUnblockActions () {
         return (
             <React.Fragment>
+                <Link to="/users" className="btn btn-secondary">Cancel</Link>
                 <button
                     className="btn btn-danger"
                     onClick={()=>this.onSubmit(false)}
                 >Unblock</button>
-                <Link to="/" className="btn btn-secondary">Cancel</Link>
             </React.Fragment>
         );
     }
 
     renderContent() {
-        if(!this.props.stream){
+        if(!this.props.user){
             return "Are you sure you want to block?"
         }
         return `Are you sure you want to block : ${this.props.user.name}`
     }
     renderUnblockContent() {
-        if(!this.props.stream){
+        if(!this.props.user){
             return "Are you sure you want to Unblock?"
         }
         return `Are you sure you want to Unblock: ${this.props.user.name}`
     }
 
     render() {
-        console.log("user:......", this.props.user);
         if (!this.props.user){
             return null;
         }
         if(this.props.user.is_blocked){
             return (
-                <Modal>
+                <Modal show={true} onHide={()=>history.push("/users")}>
                     <Modal.Header>Unblock User</Modal.Header>
                     <Modal.Body>{this.renderUnblockContent()}</Modal.Body>
                     <Modal.Footer>{this.renderUnblockActions()}</Modal.Footer>
@@ -67,7 +67,7 @@ class BlockUser extends React.Component{
             )
         }
         return(
-            <Modal>
+            <Modal show={true} onHide={()=>history.push("/users")}>
                 <Modal.Header>Block User</Modal.Header>
                 <Modal.Body>{this.renderContent()}</Modal.Body>
                 <Modal.Footer>{this.renderActions()}</Modal.Footer>
