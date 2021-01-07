@@ -5,7 +5,7 @@ import { enGB } from 'date-fns/locale'
 import { DatePicker } from 'react-nice-dates'
 import 'react-nice-dates/build/style.css'
 import Spinner from "../../components/Spinner";
-import {getMachines} from "../../store/actions/company";
+import {getMachines, getSections} from "../../store/actions/company";
 
 import Table from "../../components/Table";
 
@@ -16,18 +16,64 @@ class MachineList extends React.Component {
         end_date: null,
         section: null,
         machine: null,
+        machineList: null,
         shift: null
+    }
+    componentDidMount() {
+        this.props.getSections();
+    }
+
+    onSectionSelection = (e) => {
+        e.preventDefault();
+        let sectionId = parseInt(e.target.value);
+        // let sectionIds = Array.from(e.target.selectedOptions, option => parseInt(option.value));
+        // let machineList = this.props.sections.filter((section) => sectionIds.includes(section.id));
+        let machineList = this.props.sections.filter((section) => section.id === sectionId);
+        this.setState({section: sectionId, machineList: machineList});
+    }
+    onMachineSelection = (e) => {
+        e.preventDefault();
+        let machineIds = Array.from(e.target.selectedOptions, option => parseInt(option.value));
+        this.setState({machine: machineIds})
+    }
+    onShiftSelection = (e) => {
+        e.preventDefault();
+        this.setState({shift: e.target.value})
     }
     onFormSubmit = (e) => {
         e.preventDefault();
-        console.log("Start Date: ", this.state.start_date.toISOString());
-        console.log("End Date: ", this.state.end_date.toISOString());
+        let queryString = "?";
+        if(this.state.section){
+            queryString = queryString + "&section=" + this.state.section;
+        }
+        if(this.state.shift){
+            queryString = queryString + "&shift=" + this.state.shift;
+        }
+        if(this.state.start_date){
+            queryString = queryString + "&from=" + this.state.start_date.toISOString().split("T")[0];
+        }
+        if(this.state.end_date){
+            queryString = queryString + "&to=" + this.state.end_date.toISOString().split("T")[0];
+        }
+        if(this.state.machine){
+            queryString = queryString + "&machine=" + this.state.machine.join(",");
+        }
+        console.log("query string: query string", queryString.replace("?&", "?"));
+        // console.log("section: ", this.state.section);
+        // console.log("shift: ", this.state.shift);
+        // console.log("machine: ", this.state.machine);
+        // console.log("Start Date: ", this.state.start_date.toISOString());
+        // console.log("End Date: ", this.state.end_date.toISOString());
     }
     onClearSubmit = (e) => {
         e.preventDefault();
         this.setState({
             start_date: null,
             end_date: null,
+            section: null,
+            machine: null,
+            machineList: null,
+            shift: null
         })
     }
 
@@ -57,10 +103,10 @@ class MachineList extends React.Component {
         if (!this.props.isAuthenticated) {
             return <Redirect to="/phone-login"/>;
         }
-        // if (!this.props.users) {
-        //     return <Spinner/>
-        // }
-        console.log("Machine Component....................!");
+        if (!this.props.sections) {
+            return <Spinner/>
+        }
+        console.log("on section selection: ", this.state.section);
 
         return (
             <React.Fragment>
@@ -74,48 +120,28 @@ class MachineList extends React.Component {
                                 <div className="card-body">
                                     <form>
                                         <div className="row">
-                                            <div className="col-md-4 pr-1">
+                                            <div className="col-md-3 pr-1">
                                                 <div className="form-group">
                                                     <label>Section</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        value={this.state.section}
-                                                        onChange={(e => {e.preventDefault();
-                                                        this.setState({section:e.target.value})})
-                                                        }
-                                                    />
+                                                    <select className="form-control" onChange={this.onSectionSelection}>
+                                                        <option value=""> -- select a section -- </option>
+                                                        {this.props.sections.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div className="col-md-4 px-1">
-                                                <div className="form-group">
-                                                    <label>Machine</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        value={this.state.machine}
-                                                        onChange={(e => {e.preventDefault();
-                                                            this.setState({machine:e.target.value})})
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 pl-1">
+                                            <div className="col-md-3 pl-1">
                                                 <div className="form-group">
                                                     <label htmlFor="exampleInputEmail1">Shift</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        value={this.state.shift}
-                                                        onChange={(e => {e.preventDefault();
-                                                            this.setState({shift:e.target.value})})
+                                                    <select className="form-control" onChange={this.onShiftSelection}>
+                                                        <option  value=""> -- select a shift -- </option>
+                                                        {this.state.machineList ?
+                                                            this.state.machineList[0].shifts.map(item => <option key={item.name} value={item.name}>{item.name}</option>)
+                                                            :null
                                                         }
-                                                    />
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4 pr-1">
+                                            <div className="col-md-3 pr-1">
                                                 <div className="form-group">
                                                     <label>From</label>
                                                     <DatePicker
@@ -133,7 +159,7 @@ class MachineList extends React.Component {
                                                 </div>
                                             </div>
 
-                                            <div className="col-md-4 px-1">
+                                            <div className="col-md-3 px-1">
                                                 <div className="form-group">
                                                     <label>To</label>
                                                     <DatePicker
@@ -150,6 +176,21 @@ class MachineList extends React.Component {
                                                     </DatePicker>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-4 px-1">
+                                                <div className="form-group">
+                                                    <label>Machine</label>
+                                                    <select multiple className="form-control" onChange={this.onMachineSelection}>
+                                                        <option disabled value=""> -- select a section -- </option>
+                                                        {this.state.machineList ?
+                                                            this.state.machineList[0].machines.map(item => <option key={item.machine_no} value={item.machine_no}>{item.name}</option>)
+                                                            :null
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div className="row">
                                             <div className="col-md-4 pr-1">
@@ -183,7 +224,8 @@ class MachineList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.fbAuth.isUserAuthenticated,
-        machines: state.company.machines
+        machines: state.company.machines,
+        sections: state.company.sections
     };
 };
-export default connect(mapStateToProps)(MachineList);
+export default connect(mapStateToProps, {getMachines, getSections})(MachineList);
