@@ -178,7 +178,7 @@ class MachineList extends React.Component {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-4 px-1">
+                                            <div className="col-md-4 pl-1">
                                                 <div className="form-group">
                                                     <label>Machine</label>
                                                     <select multiple className="form-control" onChange={this.onMachineSelection}>
