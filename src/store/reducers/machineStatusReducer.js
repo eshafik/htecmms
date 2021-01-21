@@ -9,6 +9,8 @@ const machineStatusReducer = (state=INITIAL_STATE, action) => {
     switch (action.type) {
         case actionTypes.LIVE_STATUS:
             return {...state, live_data: action.payload}
+        case actionTypes.FILTERED_DATA:
+            return {...state, filtered_data: action.payload}
         default:
             return state;
     }

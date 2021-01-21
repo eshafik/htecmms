@@ -30,3 +30,31 @@ export const getLiveStatus = () => async dispatch => {
     }
 
 };
+
+
+export const getFilteredData = (params) => async dispatch => {
+    try{
+        const response = await machineStatusManagement.get('/machine/status/data?' + params, {
+            headers: {
+                'Authorization': "jwt " + localStorage.getItem("idToken")
+            },
+        });
+        dispatch({type: actionTypes.FILTERED_DATA, payload: response.data});
+    }catch (e) {
+        if (e.response && e.response.status===401) {
+            refreshToken().then(async function () {
+                    const response = await machineStatusManagement.get('/machine/status/data?' + params, {
+                        headers: {
+                            'Authorization': "jwt " + localStorage.getItem("idToken")
+                        },
+                    });
+                    dispatch({type: actionTypes.FILTERED_DATA, payload: response.data});
+                }
+            ).catch(function (e) {
+                notify_error("Network Error!");
+            })
+        }
+
+    }
+
+};

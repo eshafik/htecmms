@@ -1,21 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from "react-router-dom";
-import MomentUtils  from '@date-io/moment';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 import MachineStatusFilter from "./MachineStatusFilter";
 
 import Spinner from "../../components/Spinner";
-import {getMachines, getSections} from "../../store/actions/company";
-
-import Table from "../../components/Table";
+import {getFilteredData} from "../../store/actions/machineStatus";
+import DataTable from "./DataTable";
 
 class MachineList extends React.Component {
+
+    onFilter = queryParams => {
+        this.props.getFilteredData(queryParams);
+    }
+    handleIsSubmit = (isSubmit) =>{
+        this.setState({isSubmit: isSubmit})
+    }
 
     render() {
         if (!this.props.isAuthenticated) {
@@ -25,7 +25,10 @@ class MachineList extends React.Component {
             <React.Fragment>
                 <div className="container-fluid">
                     <div className="row">
-                        <MachineStatusFilter/>
+                        <MachineStatusFilter onFilter={this.onFilter}/>
+                    </div>
+                    <div className="row">
+                        <DataTable data={this.props.data} isSubmit={this.state.isSubmit} handleIsSubmit={this.handleIsSubmit}/>
                     </div>
                 </div>
             </React.Fragment>
@@ -36,8 +39,7 @@ class MachineList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.fbAuth.isUserAuthenticated,
-        // machines: state.company.machines,
-        // sections: state.company.sections
+        data: state.machine.filtered_data
     };
 };
-export default connect(mapStateToProps)(MachineList);
+export default connect(mapStateToProps, {getFilteredData})(MachineList);

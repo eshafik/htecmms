@@ -20,7 +20,7 @@ class MachineStatusFilter extends React.Component {
         end_date: null,
         end_time: null,
         section: null,
-        machine: null,
+        machines: null,
         machineList: null,
         shift: null
     }
@@ -40,19 +40,23 @@ class MachineStatusFilter extends React.Component {
     onMachineSelection = (e) => {
         e.preventDefault();
         let machineIds = Array.from(e.target.selectedOptions, option => parseInt(option.value));
-        this.setState({machine: machineIds})
-    }
-    onShiftSelection = (e) => {
-        e.preventDefault();
-        this.setState({shift: e.target.value})
+        this.setState({machines: machineIds})
     }
     onFormSubmit = (e) => {
         e.preventDefault();
         if (!this.state.start_date || !this.state.end_date){
-            notify_error("You must select date range!")
+            notify_error("You have to select date range!")
             return null;
         }
-        let queryString = "?";
+        if (!this.state.start_time || !this.state.end_time){
+            notify_error("You have to select time!")
+            return null;
+        }
+        if (!this.state.section){
+            notify_error("You have to select section!")
+            return null;
+        }
+        let queryString = "";
         if (this.state.section) {
             queryString = queryString + "&section=" + this.state.section;
         }
@@ -68,9 +72,10 @@ class MachineStatusFilter extends React.Component {
                 queryString = queryString + "T" + this.state.end_time.hour() + ":" + this.state.end_time.minute() + ":00"
             }
         }
-        if (this.state.machine) {
-            queryString = queryString + "&machine=" + this.state.machine.join(",");
+        if (this.state.machines) {
+            queryString = queryString + "&machines=" + this.state.machines.join(",");
         }
+        this.props.onFilter(queryString);
         console.log("query string: query string", queryString.replace("?&", "?"));
 
     }
@@ -82,7 +87,7 @@ class MachineStatusFilter extends React.Component {
             end_date: null,
             end_time: null,
             section: null,
-            machine: null,
+            machines: null,
             machineList: null,
             shift: null,
         })
@@ -90,9 +95,16 @@ class MachineStatusFilter extends React.Component {
 
     render() {
         if (!this.props.sections) {
-            return <Spinner/>
+            return(
+                <div className="col-md-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <Spinner/>
+                        </div>
+                    </div>
+                </div>
+            )
         }
-        console.log("on section selection: ", this.state.section);
 
         return (
             <div className="col-md-12">
