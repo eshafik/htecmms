@@ -12,24 +12,45 @@ class MachineStatusTable extends React.Component{
 
     componentDidMount() {
         this.props.getLiveStatus();
-        setInterval(this.props.getLiveStatus(), 180*1000);
+        this.interval = setInterval(this.props.getLiveStatus, 60000);
+    }
+    componentWillUnmount() {
+        // Clear the interval right before component unmount
+        clearInterval(this.interval);
     }
 
     renderStatus = (rowData) => {
         if (rowData.status==="on"){
-            return (<button type="button" className="btn btn-success">{rowData.status}</button>)
+            return (
+                <span>
+                    <i className="fas fa-circle" style={{color:"green", paddingRight: "5px"}}/>
+                    On
+                </span>
+            )
+            // return (<button type="button" className="btn btn-success">{rowData.status}</button>)
         }
         return(
-            <button type="button" className="btn btn-danger">{rowData.status}</button>
+            <span>
+                <i className="fas fa-circle" style={{color:"red", paddingRight: "5px"}}/>
+                Off
+            </span>
         )
     }
 
     renderNetworkStatus = (rowData) => {
         if (rowData.network_status==="working"){
-            return (<button type="button" className="btn btn-success">{rowData.network_status}</button>)
+            return (
+                <span>
+                    <i className="fas fa-circle" style={{color:"green", paddingRight: "5px"}}/>
+                    Good
+                </span>
+            )
         }
         return(
-            <button type="button" className="btn btn-danger">Network Error</button>
+            <span>
+                <i className="fas fa-circle" style={{color:"red", paddingRight: "5px"}}/>
+                Issue
+            </span>
         )
     }
 

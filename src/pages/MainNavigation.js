@@ -14,7 +14,7 @@ import UserDashboard from "./UserManagementDashboard/UserDashboard";
 import UpdateUser from "./UserManagementDashboard/UpdateUser";
 import BlockUser from "./UserManagementDashboard/BlockUser";
 import DeleteUser from "./UserManagementDashboard/DeleteUser";
-import MaterialUIPickers from "./Machines/CustomDateTime";
+import MachineStatusTable from "./Machines/MachineStatusTable";
 
 import MachineList from "./Machines/MachineList";
 
@@ -23,7 +23,7 @@ function MainNavigation() {
     return (
         <React.Fragment>
             <Switch>
-                <Route path="/" exact component={List}/>
+                <Route path="/" exact component={MachineStatusTable}/>
                 <Route path="/streams/new" exact component={Create}/>
                 <Route path="/streams/edit/:id" exact component={Edit}/>
                 <Route path="/streams/delete/:id" exact component={Delete}/>
@@ -36,7 +36,6 @@ function MainNavigation() {
                 <Route path="/users/block-unblock/:id" exact component={BlockUser}/>
                 <Route path="/users/delete/:id" exact component={DeleteUser}/>
                 <Route path="/machines/live" exact component={MachineList}/>
-                <Route path="/date" exact component={MaterialUIPickers}/>
             </Switch>
         </React.Fragment>
     );

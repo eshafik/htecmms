@@ -12,7 +12,6 @@ import MachineStatusFilter from "./MachineStatusFilter";
 
 import Spinner from "../../components/Spinner";
 import {getMachines, getSections} from "../../store/actions/company";
-import MachineStatusTable from "./MachineStatusTable";
 
 import Table from "../../components/Table";
 
@@ -26,7 +25,7 @@ class MachineList extends React.Component {
             <React.Fragment>
                 <div className="container-fluid">
                     <div className="row">
-                        <MachineStatusTable/>
+                        <MachineStatusFilter/>
                     </div>
                 </div>
             </React.Fragment>
