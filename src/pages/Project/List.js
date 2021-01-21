@@ -5,11 +5,12 @@ import history from "../../history";
 
 import {fetchStreams} from "../../store/actions/stream";
 import Table from "../../components/Table";
+import DataTable from "../Machines/DataTable";
 
 class List extends React.Component{
-    componentDidMount() {
-        this.props.fetchStreams();
-    }
+    // componentDidMount() {
+    //     this.props.fetchStreams();
+    // }
 
     renderList(){
 
@@ -30,17 +31,13 @@ class List extends React.Component{
         if (! this.props.isAuthenticated){
             return <Redirect to="/phone-login" />;
         }
-        if (!this.props.streams){
-            return <div>Loading</div>
-        }
+        // if (!this.props.streams){
+        //     return <div>Loading</div>
+        // }
 
         return(
             <React.Fragment>
-                <Table
-                    title = "Demo Data"
-                    headers={["Id", "Title", "Description", "Action", "Action"]}
-                    values={this.renderList()}
-                />
+                <DataTable/>
             </React.Fragment>
         )
     }

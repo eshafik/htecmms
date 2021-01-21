@@ -6,6 +6,7 @@ import authReducer from "./authReducer";
 import firebaseAuthReducer from "./firebaseAuthReducer";
 import userReducer from "./userReducer";
 import companyReducer from "./companyReducer";
+import machineStatusReducer from "./machineStatusReducer";
 
 export default combineReducers({
     form: formReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
     fbAuth: firebaseAuthReducer,
     users: userReducer,
     company: companyReducer,
+    machine: machineStatusReducer,
 });
