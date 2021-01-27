@@ -15,10 +15,7 @@ class DataTable extends React.Component{
             { title: 'End Time', field: 'end_at'},
             { title: 'Duration', field: 'duration'},
         ];
-        if (this.props.data.records===undefined && !this.props.isSubmit){
-            return <div className="text-center">No Data Available</div>
-        }
-        if (this.props.data.records===undefined && this.props.isSubmit){
+        if(this.props.isLoading){
             return (
                 <div className="col-md-12">
                     <div className="card">
@@ -29,6 +26,20 @@ class DataTable extends React.Component{
                 </div>
             )
         }
+        else if (this.props.data.records===undefined || this.props.data.records.length===0){
+            return <div className="text-center">No Data Available</div>
+        }
+        // if (this.props.data.records===undefined && this.props.isSubmit){
+        //     return (
+        //         <div className="col-md-12">
+        //             <div className="card">
+        //                 <div className="card-body">
+        //                     <Spinner/>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     )
+        // }
         const data = this.props.data;
         const title = `Total On Time: ${data.total_on_time} minutes, Total Off Time: ${data.total_off_time} minutes, Utilization: ${data.utilization}%`
         return (

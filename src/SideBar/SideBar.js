@@ -27,9 +27,9 @@ class SideBar extends React.Component{
                 }
 
                 <li className="nav-item">
-                    <Link className="nav-link" to="/#">
+                    <Link className="nav-link" to="/machines/data">
                         <i className="nc-icon nc-notes"/>
-                        <p>Table List</p>
+                        <p>Data</p>
                     </Link>
                 </li>
             </ul>
@@ -41,7 +41,7 @@ class SideBar extends React.Component{
                 <div className="sidebar-wrapper">
                     <div className="logo">
                         <Link to="/#" className="simple-text">
-                            MSI Dashboard
+                            HTEC
                         </Link>
                     </div>
                     {this.renderSideBarMenu()}

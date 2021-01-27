@@ -20,3 +20,5 @@ export const FETCH_MACHINES = "FETCH_MACHINES";
 export const BLOCK_UNBLOCK_USER = "BLOCK_UNBLOCK_USER";
 export const LIVE_STATUS = "LIVE_STATUS";
 export const FILTERED_DATA = "FILTERED_DATA";
+export const IS_FETCHING = "IS_FETCHING";
+export const IS_FETCHED = "IS_FETCHED";

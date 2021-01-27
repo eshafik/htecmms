@@ -13,9 +13,6 @@ class MachineList extends React.Component {
     onFilter = queryParams => {
         this.props.getFilteredData(queryParams);
     }
-    handleIsSubmit = (isSubmit) =>{
-        this.setState({isSubmit: isSubmit})
-    }
 
     render() {
         if (!this.props.isAuthenticated) {
@@ -24,12 +21,7 @@ class MachineList extends React.Component {
         return (
             <React.Fragment>
                 <div className="container-fluid">
-                    <div className="row">
-                        <MachineStatusFilter onFilter={this.onFilter}/>
-                    </div>
-                    <div className="row">
-                        <DataTable data={this.props.data} isSubmit={this.state.isSubmit} handleIsSubmit={this.handleIsSubmit}/>
-                    </div>
+                    <MachineStatusFilter onFilter={this.onFilter}/>
                 </div>
             </React.Fragment>
         )

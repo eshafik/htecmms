@@ -35,7 +35,7 @@ class Footer extends React.Component{
                             <script>
                                 document.write(new Date().getFullYear())
                             </script>
-                            <Link href="/">MSI Shafik</Link>, made with love for a better web
+                            <a href="https://www.linkedin.com/in/shafikte/" target="_blank" rel="noopener noreferrer">MSI Shafik</a>, made with love for a better web
                         </p>
                     </nav>
                 </div>

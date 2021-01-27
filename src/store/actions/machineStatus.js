@@ -34,12 +34,14 @@ export const getLiveStatus = () => async dispatch => {
 
 export const getFilteredData = (params) => async dispatch => {
     try{
+        dispatch({type: actionTypes.IS_FETCHING});
         const response = await machineStatusManagement.get('/machine/status/data?' + params, {
             headers: {
                 'Authorization': "jwt " + localStorage.getItem("idToken")
             },
         });
         dispatch({type: actionTypes.FILTERED_DATA, payload: response.data});
+        dispatch({type: actionTypes.IS_FETCHED});
     }catch (e) {
         if (e.response && e.response.status===401) {
             refreshToken().then(async function () {

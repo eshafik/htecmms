@@ -10,7 +10,9 @@ import {
 
 import Spinner from "../../components/Spinner";
 import {getMachines, getSections} from "../../store/actions/company";
+import {getFilteredData} from "../../store/actions/machineStatus";
 import {notify_error} from "../../components/Notify";
+import DataTable from "./DataTable";
 
 class MachineStatusFilter extends React.Component {
     state = {
@@ -22,7 +24,7 @@ class MachineStatusFilter extends React.Component {
         section: null,
         machines: null,
         machineList: null,
-        shift: null
+        shift: null,
     }
 
     componentDidMount() {
@@ -75,7 +77,8 @@ class MachineStatusFilter extends React.Component {
         if (this.state.machines) {
             queryString = queryString + "&machines=" + this.state.machines.join(",");
         }
-        this.props.onFilter(queryString);
+        // this.props.onFilter(queryString);
+        this.props.getFilteredData(queryString);
         console.log("query string: query string", queryString.replace("?&", "?"));
 
     }
@@ -90,8 +93,17 @@ class MachineStatusFilter extends React.Component {
             machines: null,
             machineList: null,
             shift: null,
-        })
+        });
     }
+    // renderDataTable = () => {
+    //     if (this.props.data.records===undefined || this.props.data.records.length===0){
+    //         return (
+    //
+    //             <div className="text-center">No Data Available</div>
+    //         )
+    //     }
+    //     return <DataTable data={this.props.data}/>
+    // }
 
     render() {
         if (!this.props.sections) {
@@ -107,133 +119,140 @@ class MachineStatusFilter extends React.Component {
         }
 
         return (
-            <div className="col-md-12">
-                <div className="card">
-                    <div className="card-header">
-                        <h4 className="card-title">Add Filter</h4>
-                    </div>
-                    <div className="card-body">
-                        <form>
-                            <div className="row">
-                                <div className="col-md-3 pr-3">
-                                    <div className="form-group">
-                                        <label>Section</label>
-                                        <select className="form-control" onChange={this.onSectionSelection}>
-                                            <option value="100"> -- All --</option>
-                                            {this.props.sections.map(item => {
-                                                if (item.name !== "All") {
-                                                    return <option key={item.id} value={item.id}>{item.name}</option>
-                                                }
-                                            })}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 pl-1">
-                                    <div className="form-group">
-                                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                                            <KeyboardDatePicker
-                                                margin="normal"
-                                                id="date-picker-dialog"
-                                                label="Select Date From"
-                                                format="YYYY-MM-DD"
-                                                value={this.state.start_date}
-                                                onChange={(date) => this.setState({start_date: date})}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 pl-1">
-                                    <div className="form-group">
-                                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                                            <KeyboardTimePicker
-                                                margin="normal"
-                                                id="time-picker"
-                                                label="Select Time From"
-                                                value={this.state.start_time}
-                                                onChange={(time) => this.setState({start_time: time})}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change time',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </div>
-                                </div>
-                                <div className="col-md-2 pr-1">
-                                    <div className="form-group">
-                                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                                            <KeyboardDatePicker
-                                                margin="normal"
-                                                id="date-picker-dialog"
-                                                label="Select Date To"
-                                                format="YYYY-MM-DD"
-                                                value={this.state.end_date}
-                                                onChange={(date) => this.setState({end_date: date})}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </div>
-                                </div>
+            <React.Fragment>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="card">
+                            <div className="card-header">
+                                <h4 className="card-title">Add Filter</h4>
+                            </div>
+                            <div className="card-body">
+                                <form>
+                                    <div className="row">
+                                        <div className="col-md-3 pr-3">
+                                            <div className="form-group">
+                                                <label>Section</label>
+                                                <select className="form-control" onChange={this.onSectionSelection}>
+                                                    <option value="100"> -- All --</option>
+                                                    {this.props.sections.map(item => {
+                                                        if (item.name !== "All") {
+                                                            return <option key={item.id} value={item.id}>{item.name}</option>
+                                                        }
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-2 pl-1">
+                                            <div className="form-group">
+                                                <MuiPickersUtilsProvider utils={MomentUtils}>
+                                                    <KeyboardDatePicker
+                                                        margin="normal"
+                                                        id="date-picker-dialog"
+                                                        label="Select Date From"
+                                                        format="YYYY-MM-DD"
+                                                        value={this.state.start_date}
+                                                        onChange={(date) => this.setState({start_date: date})}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change date',
+                                                        }}
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-2 pl-1">
+                                            <div className="form-group">
+                                                <MuiPickersUtilsProvider utils={MomentUtils}>
+                                                    <KeyboardTimePicker
+                                                        margin="normal"
+                                                        id="time-picker"
+                                                        label="Select Time From"
+                                                        value={this.state.start_time}
+                                                        onChange={(time) => this.setState({start_time: time})}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change time',
+                                                        }}
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-2 pr-1">
+                                            <div className="form-group">
+                                                <MuiPickersUtilsProvider utils={MomentUtils}>
+                                                    <KeyboardDatePicker
+                                                        margin="normal"
+                                                        id="date-picker-dialog"
+                                                        label="Select Date To"
+                                                        format="YYYY-MM-DD"
+                                                        value={this.state.end_date}
+                                                        onChange={(date) => this.setState({end_date: date})}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change date',
+                                                        }}
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                            </div>
+                                        </div>
 
-                                <div className="col-md-2 pl-1">
-                                    <div className="form-group">
-                                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                                            <KeyboardTimePicker
-                                                margin="normal"
-                                                id="time-picker"
-                                                label="Select Time To"
-                                                value={this.state.end_time}
-                                                onChange={(time) => this.setState({end_time: time})}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change time',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
+                                        <div className="col-md-2 pl-1">
+                                            <div className="form-group">
+                                                <MuiPickersUtilsProvider utils={MomentUtils}>
+                                                    <KeyboardTimePicker
+                                                        margin="normal"
+                                                        id="time-picker"
+                                                        label="Select Time To"
+                                                        value={this.state.end_time}
+                                                        onChange={(time) => this.setState({end_time: time})}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change time',
+                                                        }}
+                                                    />
+                                                </MuiPickersUtilsProvider>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-3 pl-1">
-                                    <div className="form-group">
-                                        <label>Machine</label>
-                                        <select multiple className="form-control" onChange={this.onMachineSelection}>
-                                            <option disabled value=""> -- select a section --</option>
-                                            {this.state.machineList ?
-                                                this.state.machineList[0].machines.map(item => <option
-                                                    key={item.machine_no} value={item.machine_no}>{item.name}</option>)
-                                                : null
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
+                                    <div className="row">
+                                        <div className="col-md-3 pl-1">
+                                            <div className="form-group">
+                                                <label>Machine</label>
+                                                <select multiple className="form-control" onChange={this.onMachineSelection}>
+                                                    <option disabled value=""> -- select a section --</option>
+                                                    {this.state.machineList ?
+                                                        this.state.machineList[0].machines.map(item => <option
+                                                            key={item.machine_no} value={item.machine_no}>{item.name}</option>)
+                                                        : null
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
 
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-4 pr-1">
+                                            <button
+                                                type="submit"
+                                                className="btn btn-warning btn-fill pull-left mr-2"
+                                                onClick={e => this.onFormSubmit(e)}
+                                            >
+                                                Apply Filter
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                className="btn btn-danger btn-fill pull-left mr-2"
+                                                onClick={e => this.onClearSubmit(e)}
+                                            >
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            <div className="row">
-                                <div className="col-md-4 pr-1">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-warning btn-fill pull-left mr-2"
-                                        onClick={e => this.onFormSubmit(e)}
-                                    >
-                                        Apply Filter
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-danger btn-fill pull-left mr-2"
-                                        onClick={e => this.onClearSubmit(e)}
-                                    >
-                                        Clear Date
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div className="row">
+                    <DataTable data={this.props.data} isLoading={this.props.onLoading}/>
+                </div>
+            </React.Fragment>
         )
     }
 }
@@ -242,7 +261,9 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.fbAuth.isUserAuthenticated,
         machines: state.company.machines,
-        sections: state.company.sections
+        sections: state.company.sections,
+        data: state.machine.filtered_data,
+        onLoading: state.machine.onLoading,
     };
 };
-export default connect(mapStateToProps, {getMachines, getSections})(MachineStatusFilter);
+export default connect(mapStateToProps, {getMachines, getSections, getFilteredData})(MachineStatusFilter);

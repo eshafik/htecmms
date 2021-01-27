@@ -35,7 +35,7 @@ function MainNavigation() {
                 <Route path="/users/edit/:id" exact component={UpdateUser}/>
                 <Route path="/users/block-unblock/:id" exact component={BlockUser}/>
                 <Route path="/users/delete/:id" exact component={DeleteUser}/>
-                <Route path="/machines/live" exact component={MachineList}/>
+                <Route path="/machines/data" exact component={MachineList}/>
             </Switch>
         </React.Fragment>
     );
