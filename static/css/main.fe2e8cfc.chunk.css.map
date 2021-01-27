@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/LoginForm.module.css"],"names":[],"mappings":"AAAA,8BACI,eAAgB,CAChB,eACJ","file":"main.fe2e8cfc.chunk.css","sourcesContent":["#custom_form {\r\n    margin-top: 50px;\r\n    margin-left: 20%;\r\n}"]}
