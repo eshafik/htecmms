@@ -18,7 +18,7 @@ class SideBar extends React.Component{
                 </li>
                 {localStorage.getItem('group') && localStorage.getItem('group') === 'DEV-ADMIN' ?
                     <li className="nav-item">
-                        <Link className="nav-link" to="/users">
+                        <Link className="nav-link" to="/htecmms/users">
                             <i className="nc-icon nc-circle-09"/>
                             <p>Users Management</p>
                         </Link>
@@ -27,7 +27,7 @@ class SideBar extends React.Component{
                 }
 
                 <li className="nav-item">
-                    <Link className="nav-link" to="/machines/data">
+                    <Link className="nav-link" to="/htecmms/machines/data">
                         <i className="nc-icon nc-notes"/>
                         <p>Data</p>
                     </Link>

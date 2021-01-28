@@ -46,7 +46,7 @@ export const createUser = formValues => async (dispatch, getState) => {
             notify_success("Stream Creation Succeed!");
         }
         dispatch({type: actionTypes.CREATE_USER, payload: response.data});
-        history.push("/users");
+        history.push("/htecmms/users");
         window.location.reload();
     }catch (e) {
         if (e.response && e.response.status===401) {
@@ -60,7 +60,7 @@ export const createUser = formValues => async (dispatch, getState) => {
                         notify_success("Stream Creation Succeed!");
                     }
                     dispatch({type: actionTypes.CREATE_USER, payload: response.data});
-                    history.push("/users");
+                    history.push("/htecmms/users");
                 }
             ).catch(function (e) {
                 notify_error("Network Error!");
@@ -133,7 +133,7 @@ export const editUser = (id, formValues) => async dispatch => {
         });
         dispatch({type: actionTypes.EDIT_USER, payload: response.data});
         notify_success("Updated Successfully!")
-        history.push("/users");
+        history.push("/htecmms/users");
     }catch (e) {
         if (e.response && e.response.status===401) {
             refreshToken().then(async function () {
@@ -144,7 +144,7 @@ export const editUser = (id, formValues) => async dispatch => {
                 });
                 dispatch({type: actionTypes.EDIT_USER, payload: response.data});
                 notify_success("Updated Successfully!")
-                history.push("/");
+                history.push("/htecmms");
                 }
             ).catch(function (e) {
                 notify_error("Network Error!");
@@ -165,7 +165,7 @@ export const blockUnblockUser = (id, isBlocked) => async dispatch => {
         });
         dispatch({type: actionTypes.BLOCK_UNBLOCK_USER});
         notify_success("Action Successful!");
-        history.push("/users");
+        history.push("/htecmms/users");
         // window.location.reload();
 
     }catch (e) {
@@ -179,7 +179,7 @@ export const blockUnblockUser = (id, isBlocked) => async dispatch => {
                 });
                 dispatch({type: actionTypes.BLOCK_UNBLOCK_USER});
                 notify_success("Action Successful!");
-                history.push("/users");
+                history.push("/htecmms/users");
                 }
             ).catch(function (e) {
                 notify_error("Network Error!");
@@ -200,7 +200,7 @@ export const deleteUser = id => async dispatch => {
         });
         dispatch({type: actionTypes.DELETE_USER, payload: id});
         notify_success("User Deletion Successful!");
-        history.push("/users");
+        history.push("/htecmms/users");
 
     }catch (e) {
         if (e.response && e.response.status===401) {
@@ -213,7 +213,7 @@ export const deleteUser = id => async dispatch => {
                 });
                 dispatch({type: actionTypes.DELETE_USER, payload: id});
                 notify_success("User Deletion Successful!");
-                history.push("/users");
+                history.push("/htecmms/users");
                 }
             ).catch(function (e) {
                 notify_error("Network Error!");

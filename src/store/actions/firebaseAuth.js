@@ -7,7 +7,7 @@ import {notify_success} from "../../components/Notify";
 export const refreshToken = async () => {
     console.info("called refresh token method");
     if (!localStorage.getItem("refreshToken")){
-        history.push("/phone-login");
+        history.push("/htecmms/phone-login");
     }else {
         const post_data = {grant_type: "refresh_token", "refresh_token": localStorage.getItem("refreshToken")};
         const response = await firebaseRefreshToken.post('', post_data);
@@ -23,7 +23,7 @@ export const userLoginWithPhone = () => (dispatch) => {
     console.log("Entered into login action")
     dispatch({type: actionTypes.USER_LOG_IN});
     notify_success("Login Success!");
-    history.push("/")
+    history.push("/htecmms")
 };
 
 export const userLogOutWithPhone = () => (dispatch) => {

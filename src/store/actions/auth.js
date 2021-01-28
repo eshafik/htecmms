@@ -12,7 +12,7 @@ export const userLogin = formValues => async (dispatch, getState) => {
             notify_success("Login Success!");
         }
         dispatch({type: actionTypes.LOG_IN, payload: response.data});
-        history.push("/");
+        history.push("/htecmms");
     }catch (e) {
         notify_error("Credential Mismatched...! Try Again..!")
     }

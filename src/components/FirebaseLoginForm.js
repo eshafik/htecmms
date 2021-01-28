@@ -178,7 +178,7 @@ class FirebaseLoginForm extends React.Component{
 
     render() {
         if (this.props.isAuthenticated){
-            history.push("/");
+            history.push("/htecmms");
         }
         return (
             <div className="container-fluid" id={styles.custom_form}>

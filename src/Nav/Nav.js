@@ -27,13 +27,13 @@ class Nav extends React.Component {
     renderLogin() {
         if (this.props.isAuthenticated) {
             return (
-                <Link className="nav-link" to="/logout">
+                <Link className="nav-link" to="/htecmms/logout">
                     <span className="no-icon">Log out</span>
                 </Link>
             )
         } else {
             return (
-                <Link className="nav-link" to="/phone-login">
+                <Link className="nav-link" to="/htecmms/phone-login">
                     <span className="no-icon">Login</span>
                 </Link>
             )

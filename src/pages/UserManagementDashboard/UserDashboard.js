@@ -13,7 +13,7 @@ class UserDashboard extends React.Component{
 
     render() {
         if (! this.props.isAuthenticated){
-            return <Redirect to="/phone-login" />;
+            return <Redirect to="/htecmms/phone-login" />;
         }
 
         return(

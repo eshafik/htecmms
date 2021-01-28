@@ -29,7 +29,7 @@ class List extends React.Component{
 
     render() {
         if (! this.props.isAuthenticated){
-            return <Redirect to="/phone-login" />;
+            return <Redirect to="/htecmms/phone-login" />;
         }
         // if (!this.props.streams){
         //     return <div>Loading</div>

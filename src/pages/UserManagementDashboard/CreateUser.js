@@ -5,6 +5,7 @@ import UserForm from "./UserForm";
 import {createUser, getUserGroup} from "../../store/actions/user";
 import {getSections} from "../../store/actions/company";
 import Spinner from "../../components/Spinner";
+import {Redirect} from "react-router-dom";
 
 class Create extends React.Component{
     componentDidMount() {
@@ -16,6 +17,9 @@ class Create extends React.Component{
         this.props.createUser(formValues);
     }
     render() {
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/htecmms/phone-login"/>;
+        }
         if (!this.props.groups || !this.props.sections){
             return <Spinner/>
         }
@@ -32,7 +36,11 @@ class Create extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    return {groups: state.users.groups, sections: state.company.sections}
+    return {
+        groups: state.users.groups,
+        sections: state.company.sections,
+        isAuthenticated: state.fbAuth.isUserAuthenticated
+    }
 }
 
 export default connect(mapStateToProps, {createUser, getUserGroup, getSections})(Create);

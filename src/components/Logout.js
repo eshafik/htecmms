@@ -11,7 +11,7 @@ class Logout extends React.Component{
 
     onSubmit = () => {
         this.props.userLogOutWithPhone();
-        history.push("/");
+        history.push("/htecmms");
     }
 
     renderActions () {
@@ -33,7 +33,7 @@ class Logout extends React.Component{
 
     render() {
         if (!this.props.isAuthenticated){
-            return <Redirect to="/phone-login"/>;
+            return <Redirect to="/htecmms/phone-login"/>;
         }
         return(
             <Modal.Dialog >

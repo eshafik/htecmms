@@ -6,6 +6,7 @@ import MaterialTable from 'material-table';
 import {getLiveStatus} from "../../store/actions/machineStatus";
 
 import Spinner from "../../components/Spinner";
+import {Redirect} from "react-router-dom";
 
 
 class MachineStatusTable extends React.Component{
@@ -83,6 +84,9 @@ class MachineStatusTable extends React.Component{
     }
 
     render() {
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/htecmms/phone-login"/>;
+        }
         return (
             <div className="col-md-12">
                 <div className="card">
@@ -98,7 +102,7 @@ class MachineStatusTable extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    return {data: state.machine.live_data}
+    return {data: state.machine.live_data, isAuthenticated: state.fbAuth.isUserAuthenticated,}
 }
 
 export default connect(mapStateToProps, {getLiveStatus})(MachineStatusTable);

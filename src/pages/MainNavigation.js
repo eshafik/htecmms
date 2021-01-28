@@ -2,7 +2,6 @@ import React from 'react';
 import {Route, Switch} from "react-router-dom";
 import {connect} from 'react-redux';
 
-import List from "./Project/List";
 import Create from "./Project/Create";
 import Edit from "./Project/Edit";
 import Delete from "./Project/Delete";
@@ -23,19 +22,19 @@ function MainNavigation() {
     return (
         <React.Fragment>
             <Switch>
-                <Route path="/" exact component={MachineStatusTable}/>
-                <Route path="/streams/new" exact component={Create}/>
-                <Route path="/streams/edit/:id" exact component={Edit}/>
-                <Route path="/streams/delete/:id" exact component={Delete}/>
-                <Route path="/streams/:id" exact component={Details}/>
-                <Route path="/login/" exact component={LoginForm}/>
-                <Route path="/phone-login/" exact component={FirebaseLoginForm}/>
-                <Route path="/logout/" exact component={Logout}/>
-                <Route path="/users/" exact component={UserDashboard}/>
-                <Route path="/users/edit/:id" exact component={UpdateUser}/>
-                <Route path="/users/block-unblock/:id" exact component={BlockUser}/>
-                <Route path="/users/delete/:id" exact component={DeleteUser}/>
-                <Route path="/machines/data" exact component={MachineList}/>
+                <Route path="/htecmms" exact component={MachineStatusTable}/>
+                <Route path="/htecmms/streams/new" exact component={Create}/>
+                <Route path="/htecmms/streams/edit/:id" exact component={Edit}/>
+                <Route path="/htecmms/streams/delete/:id" exact component={Delete}/>
+                <Route path="/htecmms/streams/:id" exact component={Details}/>
+                <Route path="/htecmms/login/" exact component={LoginForm}/>
+                <Route path="/htecmms/phone-login/" exact component={FirebaseLoginForm}/>
+                <Route path="/htecmms/logout/" exact component={Logout}/>
+                <Route path="/htecmms/users/" exact component={UserDashboard}/>
+                <Route path="/htecmms/users/edit/:id" exact component={UpdateUser}/>
+                <Route path="/htecmms/users/block-unblock/:id" exact component={BlockUser}/>
+                <Route path="/htecmms/users/delete/:id" exact component={DeleteUser}/>
+                <Route path="/htecmms/machines/data" exact component={MachineList}/>
             </Switch>
         </React.Fragment>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {Modal} from 'react-bootstrap';
 
 import {fetchUser, blockUnblockUser} from "../../store/actions/user";
@@ -54,6 +54,9 @@ class BlockUser extends React.Component{
     }
 
     render() {
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/htecmms/phone-login"/>;
+        }
         if (!this.props.user){
             return null;
         }
@@ -77,7 +80,7 @@ class BlockUser extends React.Component{
 }
 
 const mapStateToProps = (state, ownProps) =>{
-    return {user: state.users.user}
+    return {user: state.users.user, isAuthenticated: state.fbAuth.isUserAuthenticated}
 };
 
 export default connect(mapStateToProps, {fetchUser, blockUnblockUser})(BlockUser);

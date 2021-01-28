@@ -22,13 +22,13 @@ class UsersList extends React.Component {
                     <td>{user.group_name}</td>
                     <td>{user.section_name}</td>
                     <td>{user.is_blocked ? "Blocked" : "Active"}</td>
-                    <td><Link to={`/users/edit/${user.id}`} className="btn btn-primary">Edit</Link></td>
+                    <td><Link to={`/htecmms/users/edit/${user.id}`} className="btn btn-primary">Edit</Link></td>
                     <td>
-                        <Link to={`/users/block-unblock/${user.id}`}
+                        <Link to={`/htecmms/users/block-unblock/${user.id}`}
                               className="btn btn-warning">{user.is_blocked ? "Unblock" : "Block"}
                         </Link>
                     </td>
-                    <td><Link to={`/users/delete/${user.id}`} className="btn btn-danger">Delete</Link></td>
+                    <td><Link to={`/htecmms/users/delete/${user.id}`} className="btn btn-danger">Delete</Link></td>
                 </tr>
             )
         });
@@ -36,7 +36,7 @@ class UsersList extends React.Component {
 
     render() {
         if (!this.props.isAuthenticated) {
-            return <Redirect to="/phone-login"/>;
+            return <Redirect to="/htecmms/phone-login"/>;
         }
         if (!this.props.users) {
             return <Spinner/>
